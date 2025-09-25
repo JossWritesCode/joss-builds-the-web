@@ -1,4 +1,4 @@
-import SEO from "../components/SEO";
+import SEO from "../components/utility/SEO";
 import Section from "../components/Section";
 import { projects } from "../data/projects";
 import ProjectCard from "../components/ProjectCard";

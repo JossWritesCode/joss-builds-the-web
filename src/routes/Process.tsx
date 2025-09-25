@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { PhoneCall, PencilRuler, Hammer, Rocket } from "lucide-react";
-import SEO from "../components/SEO";
+import SEO from "../components/utility/SEO";
 import Section from "../components/Section";
 import { Card, CardBody } from "../components/ui/Card";
 import type { LucideIcon } from "lucide-react";
@@ -25,11 +25,11 @@ const steps: Step[] = [
   },
   {
     t: "Mockup",
-    d: "Free homepage mockup delivered in 2 days.",
+    d: "See a free homepage design within 3 business days—before you commit.",
     bullets: [
-      "Visual reassurance",
-      "Fast iterations w/ real copy",
-      "Shareable for stakeholders",
+      "Get a real preview of your site's look & feel",
+      "Fast edits with your actual content",
+      "Easy to share with partners or stakeholders",
     ],
     icon: PencilRuler,
   },

@@ -1,4 +1,4 @@
-import SEO from "../components/SEO";
+import SEO from "../components/utility/SEO";
 import Section from "../components/Section";
 import Button from "../components/ui/Button";
 import Badge from "../components/ui/Badge";

@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { site } from "../../config/siteConfig";
+import { site } from "../../../config/siteConfig";
 
 function SEO({ title, description }: { title?: string; description?: string }) {
   const t = title ? `${title} • ${site.name}` : site.seo.defaultTitle;

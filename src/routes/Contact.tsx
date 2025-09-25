@@ -1,4 +1,4 @@
-import SEO from "../components/SEO";
+import SEO from "../components/utility/SEO";
 import Section from "../components/Section";
 import Button from "../components/ui/Button";
 import { site } from "../config/siteConfig";
@@ -7,7 +7,6 @@ import { useState } from "react";
 function Contact() {
   const [status, setStatus] = useState<"idle" | "ok" | "error">("idle");
 
-  // Choose provider in siteConfig.contact.formProvider
   const isFormspree = site.contact.formProvider === "formspree";
   const formspreeId = import.meta.env.VITE_FORMSPREE_ID;
 
@@ -41,8 +40,6 @@ function Contact() {
             Something went wrong. Please email me directly.
           </div>
         )}
-
-        {/* (A) Formspree implementation */}
         {isFormspree && (
           <form
             className="space-y-4"
@@ -79,8 +76,6 @@ function Contact() {
             <Button type="submit">Send</Button>
           </form>
         )}
-
-        {/* (B) Netlify Forms implementation (uncomment if deploying on Netlify) */}
         {false && (
           <form
             name="contact"
