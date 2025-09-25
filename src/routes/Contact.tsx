@@ -1,4 +1,4 @@
-import SEO from "../components/SEO";
+import SEO from "../components/utility/SEO";
 import Section from "../components/Section";
 import Button from "../components/ui/Button";
 import { site } from "../config/siteConfig";
@@ -7,7 +7,6 @@ import { useState } from "react";
 function Contact() {
   const [status, setStatus] = useState<"idle" | "ok" | "error">("idle");
 
-  // Choose provider in siteConfig.contact.formProvider
   const isFormspree = site.contact.formProvider === "formspree";
   const formspreeId = import.meta.env.VITE_FORMSPREE_ID;
 
@@ -17,12 +16,7 @@ function Contact() {
       <Section className="py-10 max-w-2xl">
         <p className="mb-6">
           Prefer email?{" "}
-          <a
-            className="text-dracula-accent underline"
-            href={`mailto:${site.email}`}
-          >
-            {site.email}
-          </a>
+          <span className="text-dracula-accent ">{site.email}</span>
         </p>
 
         {status === "ok" && (
@@ -30,7 +24,7 @@ function Contact() {
             role="status"
             className="mb-4 p-3 rounded-md bg-dracula-accent/10 border border-dracula-accent/30"
           >
-            Thanks! I’ll get back to you soon.
+            Thanks! I'll get back to you soon.
           </div>
         )}
         {status === "error" && (
@@ -41,8 +35,6 @@ function Contact() {
             Something went wrong. Please email me directly.
           </div>
         )}
-
-        {/* (A) Formspree implementation */}
         {isFormspree && (
           <form
             className="space-y-4"
@@ -79,8 +71,6 @@ function Contact() {
             <Button type="submit">Send</Button>
           </form>
         )}
-
-        {/* (B) Netlify Forms implementation (uncomment if deploying on Netlify) */}
         {false && (
           <form
             name="contact"
@@ -93,7 +83,7 @@ function Contact() {
             <input type="hidden" name="form-name" value="contact" />
             <p className="hidden">
               <label>
-                Don’t fill this out if you’re human: <input name="bot-field" />
+                Don't fill this out if you're human: <input name="bot-field" />
               </label>
             </p>
             <label className="block">

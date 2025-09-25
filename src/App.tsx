@@ -1,4 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom";
+import ScrollToTop from "./components/utility/ScrollToTop";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./routes/Home";
@@ -10,11 +11,12 @@ import Contact from "./routes/Contact";
 import NotFound from "./routes/NotFound";
 import { AnimatePresence, motion } from "framer-motion";
 
-export default function App() {
+function App() {
   const location = useLocation();
   return (
     <div className="min-h-full flex flex-col">
       <Navbar />
+      <ScrollToTop />
       <AnimatePresence mode="wait">
         <motion.main
           key={location.pathname}
@@ -39,3 +41,5 @@ export default function App() {
     </div>
   );
 }
+
+export default App;

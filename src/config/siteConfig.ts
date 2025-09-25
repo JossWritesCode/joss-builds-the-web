@@ -1,11 +1,3 @@
-export type PricingPlan = {
-  id: string;
-  name: string;
-  price: string;
-  highlight?: boolean;
-  features: string[];
-};
-
 export const site = {
   name: "Joss Builds the Web",
   title: "Web Developer — React • WordPress • Shopify",
@@ -27,39 +19,83 @@ export const site = {
   },
 };
 
+export type PricingPlan = {
+  id: string;
+  name: string;
+  features: string[];
+  ctaHref?: string;
+  ctaText?: string;
+  popular?: boolean;
+  badge?: string;
+
+  // 1) setup+monthly (Starter)
+  setupPrice?: string; // "$499 setup"
+  monthlyPrice?: string; // "$50/mo"
+
+  // 2) toggle (Business) – preformatted strings, no math
+  displayMonthly?: string; // "$200/mo"
+  displayYearly?: string; // "$2,000/yr"
+  noteMonthly?: string; // "Month-to-month; cancel anytime."
+  noteYearly?: string; // "2 months free when billed yearly."
+
+  // 3) flat (Shop)
+  price?: string;
+  pricePrefix?: string;
+  priceSuffix?: string;
+  fromPrice?: boolean;
+};
 export const pricing: PricingPlan[] = [
   {
     id: "starter",
     name: "Starter",
-    price: "$499 setup + $50/mo",
+    setupPrice: "$699CAD setup",
+    monthlyPrice: "$65CAD/mo",
     features: [
       "Modern 1–3 page site",
       "Mobile-first & accessible",
-      "Contact form + analytics",
-      "Basic SEO setup",
+      "Contact form + basic analytics",
+      "SEO essentials (titles, meta, sitemap)",
+      "Care plan: security updates, backups, minor content edits",
+      "Hosting included or client-owned hosting supported",
     ],
+    ctaHref: "/contact",
   },
   {
     id: "business",
     name: "Business",
-    price: "$1,800 flat",
-    highlight: true,
+    popular: true,
+    badge: "Most popular",
+    displayMonthly: "$225CAD/mo",
+    displayYearly: "$2,400CAD/yr",
+    noteMonthly:
+      "Month-to-month with a one-time $600CAD setup for new builds (3-month minimum).",
+    noteYearly:
+      "Pay yearly and save ~$300CAD — setup fee waived for new builds.",
     features: [
-      "Custom multi-page site",
-      "Copy guidance & SEO",
-      "Performance optimized",
-      "Launch support + training",
+      "Custom multi-page site tailored to your brand",
+      "Copy guidance + on-page SEO",
+      "Ongoing content updates & priority support",
+      "Performance optimization + analytics dashboard",
+      "Launch support + handoff training",
+      "Hosting included or client-owned hosting supported",
     ],
+    ctaHref: "/contact",
   },
   {
     id: "shop",
     name: "Shop",
-    price: "from $3,500",
+    fromPrice: true,
+    pricePrefix: "$",
+    price: "3,600CAD",
+    priceSuffix: "",
     features: [
-      "Shopify / Woo storefront",
-      "Payment & shipping setup",
-      "Product pages & collection",
-      "Conversion best practices",
+      "Shopify or WooCommerce storefront",
+      "Payments + shipping configured",
+      "Theme setup + conversion best practices",
+      "Up to 25 products (more by quote)",
+      "Owner training + launch checklist",
+      "Optional care plan for promos & ongoing updates",
     ],
+    ctaHref: "/contact",
   },
 ];

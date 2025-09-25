@@ -1,34 +1,86 @@
-import { Card, CardBody, CardHeader } from "../ui/Card";
-import Button from "../ui/Button";
-import Badge from "../ui/Badge";
+import { cn } from "../utils";
 import type { PricingPlan } from "../../config/siteConfig";
+import { Link } from "react-router-dom";
 
-export default function PricingCard({ plan }: { plan: PricingPlan }) {
+type Plan = PricingPlan & { displayPrice?: string; note?: string };
+
+export default function PricingCard({ plan }: { plan: Plan }) {
   return (
-    <Card
-      className={
-        plan.highlight
-          ? "border-dracula-accent shadow-[0_0_0_2px_rgba(189,147,249,0.2)]"
-          : ""
-      }
+    <div
+      className={cn(
+        "group relative flex flex-col justify-between rounded-xl2 border border-dracula-border bg-white p-5 shadow-soft transition",
+        plan.popular
+          ? "ring-1 ring-dracula-accent/30"
+          : "hover:shadow-lg hover:ring-1 hover:ring-dracula-accent/20"
+      )}
     >
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <h3 className="text-xl font-semibold">{plan.name}</h3>
-          {plan.highlight && <Badge>Most popular</Badge>}
+      {(plan.popular || plan.badge) && (
+        <div className="absolute -right-2 -top-2 rounded-lg bg-dracula-accent px-2 py-1 text-xs font-semibold text-white shadow-soft">
+          {plan.badge ?? "Most popular"}
         </div>
-        <p className="mt-1 text-2xl font-bold">{plan.price}</p>
-      </CardHeader>
-      <CardBody>
-        <ul className="space-y-2 list-disc ml-5">
-          {plan.features.map((f) => (
-            <li key={f}>{f}</li>
+      )}
+
+      <div>
+        <h3 className="text-lg font-semibold text-dracula-ink">{plan.name}</h3>
+
+        <div className="mt-2 text-dracula-ink">
+          {plan.setupPrice || plan.monthlyPrice ? (
+            <>
+              {plan.setupPrice && (
+                <div className="text-xl font-semibold">{plan.setupPrice}</div>
+              )}
+              {plan.monthlyPrice && (
+                <div className="text-sm text-dracula-muted">
+                  + {plan.monthlyPrice}
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="text-xl font-semibold">
+              {plan.fromPrice && (
+                <span className="mr-1 text-base text-dracula-muted">from</span>
+              )}
+              {plan.displayPrice}
+            </div>
+          )}
+
+          {plan.note && (
+            <p className="mt-1 text-sm text-dracula-muted">{plan.note}</p>
+          )}
+        </div>
+
+        <ul className="mt-4 space-y-2 text-sm text-dracula-text">
+          {plan.features.map((f, i) => (
+            <li key={i} className="flex items-start gap-2">
+              <span
+                aria-hidden
+                className="mt-1 inline-block h-4 w-4 shrink-0 rounded-full bg-dracula-accent/15"
+              />
+              <span>{f}</span>
+            </li>
           ))}
         </ul>
-        <div className="mt-5">
-          <Button aria-label={`Choose ${plan.name} plan`}>Get started</Button>
-        </div>
-      </CardBody>
-    </Card>
+      </div>
+
+      <div className="mt-6 flex items-center justify-between">
+        <Link
+          to={plan.ctaHref ?? "/contact"}
+          className={cn(
+            "inline-flex items-center justify-center rounded-xl2 px-4 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dracula-accent/40",
+            plan.popular
+              ? "bg-dracula-accent text-white shadow-soft hover:opacity-90"
+              : "text-dracula-ink hover:bg-dracula-border/40"
+          )}
+        >
+          {plan.ctaText ?? "Get started"}
+        </Link>
+        <Link
+          to="/process"
+          className="text-sm text-dracula-accentDark underline-offset-4 hover:underline"
+        >
+          What's included?
+        </Link>
+      </div>
+    </div>
   );
 }
