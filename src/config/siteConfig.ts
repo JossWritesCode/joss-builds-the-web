@@ -48,8 +48,8 @@ export const pricing: PricingPlan[] = [
   {
     id: "starter",
     name: "Starter",
-    setupPrice: "$699 setup",
-    monthlyPrice: "$65/mo",
+    setupPrice: "$699CAD setup",
+    monthlyPrice: "$65CAD/mo",
     features: [
       "Modern 1–3 page site",
       "Mobile-first & accessible",
@@ -65,11 +65,12 @@ export const pricing: PricingPlan[] = [
     name: "Business",
     popular: true,
     badge: "Most popular",
-    displayMonthly: "$225/mo",
-    displayYearly: "$2,400/yr",
+    displayMonthly: "$225CAD/mo",
+    displayYearly: "$2,400CAD/yr",
     noteMonthly:
-      "Month-to-month with a one-time $600 setup for new builds (3-month minimum).",
-    noteYearly: "Pay yearly and save ~$300 — setup fee waived for new builds.",
+      "Month-to-month with a one-time $600CAD setup for new builds (3-month minimum).",
+    noteYearly:
+      "Pay yearly and save ~$300CAD — setup fee waived for new builds.",
     features: [
       "Custom multi-page site tailored to your brand",
       "Copy guidance + on-page SEO",
@@ -85,7 +86,7 @@ export const pricing: PricingPlan[] = [
     name: "Shop",
     fromPrice: true,
     pricePrefix: "$",
-    price: "3,600",
+    price: "3,600CAD",
     priceSuffix: "",
     features: [
       "Shopify or WooCommerce storefront",

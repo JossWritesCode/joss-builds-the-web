@@ -95,7 +95,6 @@ function Services() {
             </p>
           </header>
 
-          {/* Service cards */}
           <div className="grid md:grid-cols-3 items-stretch gap-6">
             {items.map((it) => (
               <Card
@@ -137,7 +136,6 @@ function Services() {
                     </ul>
                   </div>
 
-                  {/* footer with CTAs */}
                   <div className="mt-6 flex items-center justify-between">
                     <div className="flex gap-2 w-full">
                       <Button
@@ -182,7 +180,7 @@ function Services() {
             <p className="text-sm text-dracula-text md:max-w-[60ch]">
               Not sure which option fits?{" "}
               <span className="text-dracula-accentDark">
-                I’ll recommend one in a 15-min call.
+                I'll recommend one in a 15-min call.
               </span>
             </p>
 

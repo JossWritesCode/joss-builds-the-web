@@ -15,7 +15,7 @@ type Step = {
 const steps: Step[] = [
   {
     t: "Call",
-    d: "30-minute chat about your goals and audience.",
+    d: "15-minute chat about your goals and audience.",
     bullets: [
       "Clarify vision & scope",
       "Spot risks early",
@@ -136,8 +136,6 @@ function Process() {
              md:hover:-translate-y-1 md:hover:rotate-[0.25deg] md:hover:scale-[1.01]"
                   >
                     <CardBody className="relative text-center px-6 py-8 md:px-8 md:py-10">
-                      <div className="hidden md:block absolute -top-4 left-1/2 -translate-x-1/2 h-3 w-3 rounded-full bg-dracula-accent shadow-[0_0_0_8px_rgba(189,147,249,0.14)]" />
-
                       <div className="mx-auto mb-4 md:mb-6 relative inline-flex">
                         <div
                           className="flex items-center justify-center h-12 w-12 md:h-14 md:w-14 rounded-xl

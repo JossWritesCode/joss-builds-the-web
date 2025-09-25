@@ -12,13 +12,13 @@ const config: Config = {
           text: "#20232f",
           muted: "#667085",
           border: "#e6e8ee",
-          ink: "#0f172a", // deep anchor for icons/dividers when needed
-          // brand purples (light → dark)
-          accentLight: "#C7BDFE", // decorative only (gradients, glows)
-          accent: "#8B5CF6", // primary brand (links, filled buttons) — AA on #f8f8fa
-          accentDark: "#6D28D9", // high-contrast (active/pressed, text on light)
+          ink: "#0f172a",
+          // brand purples
+          accentLight: "#C7BDFE",
+          accent: "#8B5CF6",
+          accentDark: "#6D28D9",
           highlightLight: "#E9B4FF",
-          highlight: "#C026D3", // AA on #f8f8fa for large text/icons; use decoratively for small text
+          highlight: "#C026D3",
           success: "#22C55E",
         },
       },

@@ -21,11 +21,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
     primary:
       "bg-dracula-accent text-white md:hover:opacity-90 focus-visible:ring-2 focus-visible:ring-dracula-accent/40 active:scale-[0.98]",
     secondary:
-      "bg-white text-dracula-text border border-dracula-muted/30 md:hover:bg-dracula-highlight/5 active:scale-[0.98]",
+      "bg-white text-dracula-text border border-dracula-muted/30 hover:bg-white/95 active:scale-[0.98]",
     ghost:
-      "bg-transparent text-dracula-text md:hover:bg-dracula-muted/10 active:scale-[0.98]",
+      "bg-transparent text-dracula-text hover:bg-dracula-muted/10 active:scale-[0.98]",
   };
-
   const sizes = {
     sm: "px-3 py-1.5 text-sm",
     md: "px-4 py-2 text-sm",

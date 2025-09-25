@@ -2,6 +2,8 @@ import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
 import Section from "../Section";
 import { site } from "../../config/siteConfig";
+import logo from "../../assets/logo.png";
+import { Mail, Menu } from "lucide-react";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -20,19 +22,24 @@ function Navbar() {
   return (
     <div className="sticky top-0 z-50 bg-dracula-bg/80 backdrop-blur border-b border-dracula-muted/20">
       <Section className="py-3 flex items-center justify-between">
-        {/* Brand */}
         <Link
           to="/"
           aria-label="Go home"
-          className="font-extrabold tracking-tight text-lg"
+          className="flex items-center gap-2 font-extrabold tracking-tight text-lg"
           onClick={close}
         >
-          <span className="text-dracula-text">Joss </span>
-          <span className="text-dracula-accent">Builds</span>
-          <span className="text-dracula-text"> the Web</span>
+          <img
+            src={logo}
+            alt="Joss Builds the Web logo"
+            className="h-8 w-auto"
+          />
+          <span>
+            <span className="text-dracula-text">Joss </span>
+            <span className="text-dracula-accent">Builds</span>
+            <span className="text-dracula-text"> the Web</span>
+          </span>
         </Link>
 
-        {/* Desktop nav */}
         <nav aria-label="Primary" className="hidden md:block">
           <ul className="flex gap-5">
             {nav.map((n) => (
@@ -52,15 +59,14 @@ function Navbar() {
           </ul>
         </nav>
 
-        {/* Desktop email */}
         <a
           className="hidden md:inline text-sm text-dracula-text md:hover:text-dracula-highlight"
           href={`mailto:${site.email}`}
+          aria-label="Email"
         >
-          Email
+          <Mail className="w-5 h-5" />
         </a>
 
-        {/* Mobile hamburger */}
         <button
           type="button"
           className="md:hidden inline-flex items-center justify-center rounded-xl2 p-2 text-dracula-text hover:bg-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dracula-accent/40"
@@ -69,19 +75,10 @@ function Navbar() {
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
         >
-          {/* icon */}
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M4 6h16M4 12h16M4 18h16"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </svg>
+          <Menu className="w-6 h-6" />
         </button>
       </Section>
 
-      {/* Mobile menu panel */}
       <div
         id="mobile-menu"
         className={`md:hidden border-t border-dracula-muted/20 bg-dracula-bg/95 backdrop-blur transition-[max-height,opacity] duration-200 overflow-hidden ${
@@ -105,15 +102,6 @@ function Navbar() {
                 </NavLink>
               </li>
             ))}
-            <li>
-              <a
-                href={`mailto:${site.email}`}
-                onClick={close}
-                className="block rounded-xl2 px-3 py-2 text-sm font-medium text-dracula-text hover:bg-white/70"
-              >
-                Email
-              </a>
-            </li>
           </ul>
         </nav>
       </div>

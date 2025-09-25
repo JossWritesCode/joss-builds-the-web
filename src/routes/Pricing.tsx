@@ -36,7 +36,6 @@ function Pricing() {
         description="Transparent pricing for Starter, Business, and Shop engagements."
       />
       <Section className="py-10">
-        {/* simple toggle */}
         <div className="mb-6 flex gap-2">
           <button
             onClick={() => setYearly(false)}

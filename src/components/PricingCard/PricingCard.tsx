@@ -1,5 +1,6 @@
 import { cn } from "../utils";
 import type { PricingPlan } from "../../config/siteConfig";
+import { Link } from "react-router-dom";
 
 type Plan = PricingPlan & { displayPrice?: string; note?: string };
 
@@ -23,7 +24,6 @@ export default function PricingCard({ plan }: { plan: Plan }) {
         <h3 className="text-lg font-semibold text-dracula-ink">{plan.name}</h3>
 
         <div className="mt-2 text-dracula-ink">
-          {/* setup + monthly */}
           {plan.setupPrice || plan.monthlyPrice ? (
             <>
               {plan.setupPrice && (
@@ -36,7 +36,6 @@ export default function PricingCard({ plan }: { plan: Plan }) {
               )}
             </>
           ) : (
-            // flat or toggle (already formatted)
             <div className="text-xl font-semibold">
               {plan.fromPrice && (
                 <span className="mr-1 text-base text-dracula-muted">from</span>
@@ -64,8 +63,8 @@ export default function PricingCard({ plan }: { plan: Plan }) {
       </div>
 
       <div className="mt-6 flex items-center justify-between">
-        <a
-          href={plan.ctaHref ?? "/contact"}
+        <Link
+          to={plan.ctaHref ?? "/contact"}
           className={cn(
             "inline-flex items-center justify-center rounded-xl2 px-4 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dracula-accent/40",
             plan.popular
@@ -74,13 +73,13 @@ export default function PricingCard({ plan }: { plan: Plan }) {
           )}
         >
           {plan.ctaText ?? "Get started"}
-        </a>
-        <a
-          href="/process"
+        </Link>
+        <Link
+          to="/process"
           className="text-sm text-dracula-accentDark underline-offset-4 hover:underline"
         >
-          What’s included?
-        </a>
+          What's included?
+        </Link>
       </div>
     </div>
   );
