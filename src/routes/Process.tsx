@@ -25,7 +25,7 @@ const steps: Step[] = [
   },
   {
     t: "Mockup",
-    d: "See a free homepage design within 3 business days—before you commit.",
+    d: "See your homepage design in 3 days, risk-free.",
     bullets: [
       "Get a real preview of your site's look & feel",
       "Fast edits with your actual content",
@@ -160,11 +160,13 @@ function Process() {
                       <p className="mt-2 md:mt-3 text-sm md:text-base text-dracula-muted leading-relaxed">
                         {s.d}
                       </p>
-
-                      <ul className="mt-6 md:mt-7 text-left text-sm md:text-[15px] space-y-2.5 mx-auto max-w-[24rem]">
+                      <ul className="mt-6 md:mt-7 mx-auto max-w-[24rem] text-left text-sm md:text-[15px] leading-relaxed space-y-3 md:space-y-3.5">
                         {s.bullets.map((b) => (
-                          <li key={b} className="flex gap-2.5 items-start">
-                            <span className="mt-2 inline-block h-1.5 w-1.5 rounded-full bg-dracula-accent" />
+                          <li
+                            key={b}
+                            className="grid grid-cols-[auto,1fr] items-start gap-3"
+                          >
+                            <span className="mt-2 h-1.5 w-1.5 rounded-full bg-dracula-accent flex-none" />
                             <span className="text-dracula-text/85">{b}</span>
                           </li>
                         ))}
