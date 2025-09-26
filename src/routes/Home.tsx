@@ -20,24 +20,23 @@ function Home() {
           loading="eager"
           sizes="(max-width: 768px) 100vw, 70vw"
         />
-
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/80 via-black/55 to-black/15 md:from-black/70 md:via-black/40 md:to-transparent" />
-
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-purple-800/55 via-indigo-700/30 to-transparent md:from-purple-900/50 md:via-indigo-800/25 md:to-transparent" />
+        <div
+          className="pointer-events-none absolute inset-0 -z-10
+            bg-[radial-gradient(120%_120%_at_50%_50%,rgba(0,0,0,0)_60%,rgba(0,0,0,0.22)_100%)]"
+        />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 -z-10 bg-gradient-to-b from-transparent to-dracula-bg md:h-24" />
-
         <div className="min-h-[78vh] flex items-end pt-[env(safe-area-inset-top)]">
           <Section className="pb-8 md:pb-16">
-            <div className="max-w-[34rem] text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.45)]">
+            <div className="relative max-w-[34rem] text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.45)]">
               <h1 className="font-extrabold tracking-tight leading-tight text-[clamp(1.9rem,6vw,3rem)]">
                 I build clean, fast, mobile-first websites that help local
                 businesses get more customers.
               </h1>
-
               <p className="mt-3 text-base leading-relaxed text-white/85 md:text-lg">
                 Friendly process. Reliable delivery. SEO-ready. Let&apos;s get
                 your site working as hard as you do.
               </p>
-
               <div className="mt-5 grid grid-cols-1 gap-3 sm:max-w-md">
                 <Button
                   asChild
@@ -46,7 +45,6 @@ function Home() {
                 >
                   <Link to="/contact">Get a free homepage mockup</Link>
                 </Button>
-
                 <Button
                   asChild
                   variant="secondary"
@@ -56,7 +54,6 @@ function Home() {
                   <Link to="/work">See example projects</Link>
                 </Button>
               </div>
-
               <div
                 className="mt-5 flex flex-wrap gap-2"
                 aria-label="Trust badges"

@@ -1,14 +1,54 @@
+import { useState } from "react";
 import SEO from "../components/utility/SEO";
 import Section from "../components/Section";
 import Button from "../components/ui/Button";
 import { site } from "../config/siteConfig";
-import { useState } from "react";
+
+type SendState = "idle" | "sending" | "ok" | "error";
 
 function Contact() {
-  const [status, setStatus] = useState<"idle" | "ok" | "error">("idle");
+  const [status, setStatus] = useState<SendState>("idle");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const isFormspree = site.contact.formProvider === "formspree";
-  const formspreeId = import.meta.env.VITE_FORMSPREE_ID;
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setStatus("sending");
+    setErrorMsg(null);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    const payload = {
+      name: (formData.get("name") as string) ?? "",
+      email: (formData.get("email") as string) ?? "",
+      message: (formData.get("message") as string) ?? "",
+      website: (formData.get("website") as string) ?? "", // 🕵️ honeypot
+    };
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        const msg =
+          (typeof data?.error === "string" && data.error) ||
+          "Something went wrong sending your message.";
+        setStatus("error");
+        setErrorMsg(msg);
+        return;
+      }
+
+      setStatus("ok");
+      form.reset();
+    } catch (err) {
+      setStatus("error");
+      setErrorMsg("Network error. Please email me directly.");
+    }
+  }
 
   return (
     <>
@@ -16,7 +56,12 @@ function Contact() {
       <Section className="py-10 max-w-2xl">
         <p className="mb-6">
           Prefer email?{" "}
-          <span className="text-dracula-accent ">{site.email}</span>
+          <a
+            className="text-dracula-accent md:hover:underline"
+            href={`mailto:${site.email}`}
+          >
+            {site.email}
+          </a>
         </p>
 
         {status === "ok" && (
@@ -27,96 +72,65 @@ function Contact() {
             Thanks! I'll get back to you soon.
           </div>
         )}
+
         {status === "error" && (
           <div
             role="alert"
             className="mb-4 p-3 rounded-md bg-red-50 border border-red-200 text-red-700"
           >
-            Something went wrong. Please email me directly.
+            {errorMsg ?? "Something went wrong. Please email me directly."}
           </div>
         )}
-        {isFormspree && (
-          <form
-            className="space-y-4"
-            action={`https://formspree.io/f/${formspreeId}`}
-            method="POST"
-            onSubmit={() => setStatus("ok")}
-          >
-            <label className="block">
-              <span className="block text-sm font-medium">Name</span>
-              <input
-                required
-                name="name"
-                className="mt-1 w-full rounded-xl2 border border-dracula-muted/30 bg-white p-2"
-              />
-            </label>
-            <label className="block">
-              <span className="block text-sm font-medium">Email</span>
-              <input
-                required
-                type="email"
-                name="email"
-                className="mt-1 w-full rounded-xl2 border border-dracula-muted/30 bg-white p-2"
-              />
-            </label>
-            <label className="block">
-              <span className="block text-sm font-medium">Message</span>
-              <textarea
-                required
-                name="message"
-                rows={5}
-                className="mt-1 w-full rounded-xl2 border border-dracula-muted/30 bg-white p-2"
-              />
-            </label>
-            <Button type="submit">Send</Button>
-          </form>
-        )}
-        {false && (
-          <form
-            name="contact"
-            method="POST"
-            data-netlify="true"
-            data-netlify-honeypot="bot-field"
-            className="space-y-4"
-            onSubmit={() => setStatus("ok")}
-          >
-            <input type="hidden" name="form-name" value="contact" />
-            <p className="hidden">
-              <label>
-                Don't fill this out if you're human: <input name="bot-field" />
-              </label>
-            </p>
-            <label className="block">
-              <span className="block text-sm font-medium">Name</span>
-              <input
-                required
-                name="name"
-                className="mt-1 w-full rounded-xl2 border border-dracula-muted/30 bg-white p-2"
-              />
-            </label>
-            <label className="block">
-              <span className="block text-sm font-medium">Email</span>
-              <input
-                required
-                type="email"
-                name="email"
-                className="mt-1 w-full rounded-xl2 border border-dracula-muted/30 bg-white p-2"
-              />
-            </label>
-            <label className="block">
-              <span className="block text-sm font-medium">Message</span>
-              <textarea
-                required
-                name="message"
-                rows={5}
-                className="mt-1 w-full rounded-xl2 border border-dracula-muted/30 bg-white p-2"
-              />
-            </label>
-            <Button type="submit">Send</Button>
-          </form>
-        )}
+
+        <form className="space-y-4" onSubmit={onSubmit} noValidate>
+          <label className="block">
+            <span className="block text-sm font-medium">Name</span>
+            <input
+              required
+              name="name"
+              autoComplete="name"
+              className="mt-1 w-full rounded-xl2 border border-dracula-muted/30 bg-white p-2"
+            />
+          </label>
+
+          <label className="block">
+            <span className="block text-sm font-medium">Email</span>
+            <input
+              required
+              type="email"
+              name="email"
+              autoComplete="email"
+              className="mt-1 w-full rounded-xl2 border border-dracula-muted/30 bg-white p-2"
+            />
+          </label>
+
+          <label className="block">
+            <span className="block text-sm font-medium">Message</span>
+            <textarea
+              required
+              name="message"
+              rows={5}
+              className="mt-1 w-full rounded-xl2 border border-dracula-muted/30 bg-white p-2"
+            />
+          </label>
+
+          {/* honeypot */}
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            className="hidden"
+            aria-hidden="true"
+          />
+
+          <Button type="submit" disabled={status === "sending"}>
+            {status === "sending" ? "Sending…" : "Send"}
+          </Button>
+        </form>
       </Section>
     </>
   );
 }
+
 export default Contact;

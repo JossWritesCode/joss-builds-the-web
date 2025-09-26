@@ -5,7 +5,10 @@ import type { Project } from "../../data/projects";
 function ProjectCard({ item }: { item: Project }) {
   return (
     <Card>
-      <div className="aspect-[16/9] bg-dracula-muted/15" aria-hidden />
+      <div
+        className="aspect-[16/9] bg-dracula-muted/15 rounded-t-xl2"
+        aria-hidden
+      />
       <CardBody>
         <h3 className="text-lg font-semibold">{item.title}</h3>
         <p className="mt-1 text-sm text-dracula-muted">{item.blurb}</p>
