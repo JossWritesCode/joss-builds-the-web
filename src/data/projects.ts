@@ -4,6 +4,7 @@ export type Project = {
   blurb: string;
   tags: string[];
   image?: string;
+  link?: string;
 };
 
 export const projects: Project[] = [
@@ -12,6 +13,8 @@ export const projects: Project[] = [
     title: "Local Bakery",
     blurb: "Mobile-first menu & online orders.",
     tags: ["React", "Netlify"],
+    image: "/images/golden-crust-bakery.png",
+    link: "https://goldencrustbakery.netlify.app",
   },
   {
     id: "p2",
