@@ -1,5 +1,5 @@
-import { Link, NavLink } from "react-router-dom";
-import { useState } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import Section from "../Section";
 import { site } from "../../config/siteConfig";
 import logo from "../../assets/logo.png";
@@ -16,8 +16,34 @@ const nav = [
 
 function Navbar() {
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+
+  const mobilePanelRef = useRef<HTMLDivElement | null>(null);
+  const toggleBtnRef = useRef<HTMLButtonElement | null>(null);
 
   const close = () => setOpen(false);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [location.pathname, location.search, location.hash]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const onPointerDown = (e: PointerEvent) => {
+      const target = e.target as Node;
+      const inPanel = mobilePanelRef.current?.contains(target);
+      const onToggle = toggleBtnRef.current?.contains(target);
+      if (!inPanel && !onToggle) setOpen(false);
+    };
+
+    document.addEventListener("pointerdown", onPointerDown, { capture: true });
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown, {
+        capture: true,
+      });
+    };
+  }, [open]);
 
   return (
     <div className="sticky top-0 z-50 bg-dracula-bg/80 backdrop-blur border-b border-dracula-muted/20">
@@ -68,9 +94,10 @@ function Navbar() {
         </a>
 
         <button
+          ref={toggleBtnRef}
           type="button"
           className="md:hidden inline-flex items-center justify-center rounded-xl2 p-2 text-dracula-text hover:bg-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-dracula-accent/40"
-          aria-label="Open menu"
+          aria-label={open ? "Close menu" : "Open menu"}
           aria-controls="mobile-menu"
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
@@ -81,6 +108,7 @@ function Navbar() {
 
       <div
         id="mobile-menu"
+        ref={mobilePanelRef}
         className={`md:hidden border-t border-dracula-muted/20 bg-dracula-bg/95 backdrop-blur transition-[max-height,opacity] duration-200 overflow-hidden ${
           open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
