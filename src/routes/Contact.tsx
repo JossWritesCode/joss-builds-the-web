@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import SEO from "../components/utility/SEO";
 import Section from "../components/Section";
 import Button from "../components/ui/Button";
@@ -6,26 +6,47 @@ import { site } from "../config/siteConfig";
 
 type SendState = "idle" | "sending" | "ok" | "error";
 
+const isValidEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+
 function Contact() {
   const [status, setStatus] = useState<SendState>("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const [website, setWebsite] = useState("");
+
+  const canSubmit = useMemo(() => {
+    return (
+      name.trim().length > 0 &&
+      isValidEmail(email) &&
+      message.trim().length > 0 &&
+      website.trim() === "" && // honeypot must be empty
+      status !== "sending"
+    );
+  }, [name, email, message, website, status]);
+
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setStatus("sending");
     setErrorMsg(null);
 
-    const form = e.currentTarget;
-    const formData = new FormData(form);
+    if (!canSubmit) {
+      setStatus("idle");
+      setErrorMsg("Please fill out your name, a valid email, and a message.");
+      return;
+    }
 
-    const payload = {
-      name: (formData.get("name") as string) ?? "",
-      email: (formData.get("email") as string) ?? "",
-      message: (formData.get("message") as string) ?? "",
-      website: (formData.get("website") as string) ?? "", // 🕵️ honeypot
-    };
-
+    setStatus("sending");
     try {
+      const payload = {
+        name: name.trim(),
+        email: email.trim(),
+        message: message.trim(),
+        website: website.trim(), // honeypot
+      };
+
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -43,8 +64,11 @@ function Contact() {
       }
 
       setStatus("ok");
-      form.reset();
-    } catch (err) {
+      setName("");
+      setEmail("");
+      setMessage("");
+      setWebsite("");
+    } catch {
       setStatus("error");
       setErrorMsg("Network error. Please email me directly.");
     }
@@ -56,12 +80,7 @@ function Contact() {
       <Section className="py-10 max-w-2xl">
         <p className="mb-6">
           Prefer email?{" "}
-          <a
-            className="text-dracula-accent md:hover:underline"
-            href={`mailto:${site.email}`}
-          >
-            {site.email}
-          </a>
+          <span className="text-dracula-accent">{site.email}</span>
         </p>
 
         {status === "ok" && (
@@ -82,13 +101,15 @@ function Contact() {
           </div>
         )}
 
-        <form className="space-y-4" onSubmit={onSubmit} noValidate>
+        <form className="space-y-4" onSubmit={onSubmit}>
           <label className="block">
             <span className="block text-sm font-medium">Name</span>
             <input
-              required
               name="name"
               autoComplete="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              aria-invalid={name.trim() === "" ? "true" : "false"}
               className="mt-1 w-full rounded-xl2 border border-dracula-muted/30 bg-white p-2"
             />
           </label>
@@ -96,10 +117,14 @@ function Contact() {
           <label className="block">
             <span className="block text-sm font-medium">Email</span>
             <input
-              required
               type="email"
               name="email"
               autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              aria-invalid={
+                email !== "" && !isValidEmail(email) ? "true" : "false"
+              }
               className="mt-1 w-full rounded-xl2 border border-dracula-muted/30 bg-white p-2"
             />
           </label>
@@ -107,9 +132,11 @@ function Contact() {
           <label className="block">
             <span className="block text-sm font-medium">Message</span>
             <textarea
-              required
               name="message"
               rows={5}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              aria-invalid={message.trim() === "" ? "true" : "false"}
               className="mt-1 w-full rounded-xl2 border border-dracula-muted/30 bg-white p-2"
             />
           </label>
@@ -118,13 +145,15 @@ function Contact() {
           <input
             type="text"
             name="website"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
             tabIndex={-1}
             autoComplete="off"
             className="hidden"
             aria-hidden="true"
           />
 
-          <Button type="submit" disabled={status === "sending"}>
+          <Button type="submit" disabled={!canSubmit}>
             {status === "sending" ? "Sending…" : "Send"}
           </Button>
         </form>
