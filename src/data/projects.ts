@@ -20,7 +20,9 @@ export const projects: Project[] = [
     id: "p2",
     title: "Yoga Studio",
     blurb: "Schedule, trainers, booking links.",
+    image: "/images/ember-earth-yoga.png",
     tags: ["Vite", "Vercel"],
+    link: "https://ember-and-earth-yoga.vercel.app/",
   },
   {
     id: "p3",
