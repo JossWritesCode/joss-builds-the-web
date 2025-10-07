@@ -41,7 +41,7 @@ function Navbar() {
     return () => {
       document.removeEventListener("pointerdown", onPointerDown, {
         capture: true,
-      } as any);
+      });
     };
   }, [open]);
 
